@@ -223,14 +223,14 @@ Resources:
             sudo chmod -R 755 /home/app
             sudo chown -R ec2-user:nginx /home/app
 
-            sudo psql -h ${myPostgeSQLInstance.Endpoint.Address} -U ${DBAccount} -W ${DBPassword} -f /home/app/install.sql ${DBName}
+            psql -h ${myPostgeSQLInstance.Endpoint.Address} -U ${DBAccount} -f /home/app/install.sql ${DBName}
 
             sudo echo [postgresql] > /home/app/config/database.ini
             sudo echo user=${DBAccount} >> /home/app/config/database.ini
             sudo echo password=${DBPassword} >> /home/app/config/database.ini
             sudo echo database=${DBName} >> /home/app/config/database.ini
             sudo echo host=${myPostgeSQLInstance.Endpoint.Address} >> /home/app/config/database.ini
-            sudo echo " " >> /home/app/config/database.ini
+            sudo echo "" >> /home/app/config/database.ini
 
             sudo echo "server {" > /etc/nginx/conf.d/nginx-app.conf
             sudo echo " listen     80;" >> /etc/nginx/conf.d/nginx-app.conf
@@ -252,8 +252,7 @@ Resources:
 
             sudo systemctl start nginx
             sudo systemctl enable nginx
-            sudo systemctl reload nginx
-            python3 app.py
+
 Parameters:
   DBAccount:
     Description: "DB Admin account"
