@@ -223,7 +223,7 @@ Resources:
             sudo chmod -R 755 /home/app
             sudo chown -R ec2-user:nginx /home/app
 
-            psql -h ${myPostgeSQLInstance.Endpoint.Address} -U ${DBAccount} -f /home/app/install.sql ${DBName}
+            PGPASSWORD=${DBPassword} psql -h ${myPostgeSQLInstance.Endpoint.Address} -U ${DBAccount} -f /home/app/install.sql ${DBName}
 
             sudo echo [postgresql] > /home/app/config/database.ini
             sudo echo user=${DBAccount} >> /home/app/config/database.ini
@@ -252,7 +252,6 @@ Resources:
 
             sudo systemctl start nginx
             sudo systemctl enable nginx
-
 Parameters:
   DBAccount:
     Description: "DB Admin account"
